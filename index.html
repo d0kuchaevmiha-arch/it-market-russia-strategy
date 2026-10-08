@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аналитическая записка: IT-рынок России</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{--navy:#09192e;--nl:#0f2540;--nm:#163556;--gold:#c9a84c;--gl:#e8c96d;--red:#ef4444;--grn:#22c55e;--blu:#60a5fa;--orn:#f97316;--txt:#e2e8f0;--mut:#8892a4;--brd:rgba(201,168,76,.18)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--navy);color:var(--txt);min-height:100vh}
+.hdr{background:linear-gradient(135deg,#09192e 0%,#163556 50%,#09192e 100%);border-bottom:2px solid var(--gold);padding:28px 40px;position:relative;overflow:hidden}
+.hdr::after{content:'';position:absolute;top:-40%;right:-5%;width:360px;height:360px;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);border-radius:50%}
+.hdr h1{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--gold);margin-bottom:6px}
+.hdr p{color:var(--mut);font-size:.82rem;letter-spacing:1.5px;text-transform:uppercase}
+.hdr .badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.hdr .hbadge{padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:600;border:1px solid var(--gold);color:var(--gold);background:rgba(201,168,76,.1)}
+.tabs{display:flex;gap:0;background:var(--nl);border-bottom:1px solid var(--brd);overflow-x:auto;padding:0 16px}
+.tab{padding:11px 18px;cursor:pointer;color:var(--mut);font-size:.8rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--txt)}
+.sec{display:none;padding:28px 36px;max-width:1100px;margin:0 auto}
+.sec.active{display:block}
+.stitle{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:6px}
+.ssub{color:var(--mut);font-size:.82rem;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--brd)}
+.card{background:var(--nl);border:1px solid var(--brd);border-radius:8px;padding:20px;margin-bottom:18px}
+.ctitle{font-size:.78rem;font-weight:600;color:var(--gl);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:rgba(201,168,76,.1);color:var(--gold);padding:9px 12px;text-align:left;font-size:.77rem;border-bottom:1px solid var(--brd)}
+td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--txt);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.02)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.metric{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:16px;text-align:center}
+.mval{font-family:'IBM Plex Mono',monospace;font-size:1.9rem;font-weight:500;color:var(--gold);line-height:1.1}
+.mlbl{font-size:.72rem;color:var(--mut);margin-top:4px}
+.chart-wrap{position:relative;height:280px;margin:14px 0}
+.formula{background:rgba(201,168,76,.06);border:1px solid var(--brd);border-left:3px solid var(--gold);border-radius:4px;padding:14px 20px;font-family:'IBM Plex Mono',monospace;font-size:1.05rem;color:var(--gl);margin:14px 0;text-align:center}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.72rem;font-weight:600}
+.bh{background:rgba(239,68,68,.18);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.bm{background:rgba(249,115,22,.18);color:#f97316;border:1px solid rgba(249,115,22,.3)}
+.bl{background:rgba(34,197,94,.18);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.bb{background:rgba(96,165,250,.18);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
+.btn{display:inline-block;padding:10px 26px;background:var(--gold);color:var(--navy);border:none;border-radius:4px;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s;margin:6px 4px}
+.btn:hover{background:var(--gl);transform:translateY(-1px)}
+.btn-sec{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn-sec:hover{background:rgba(201,168,76,.1);transform:translateY(-1px)}
+.info2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.info3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px}
+.iblock{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:16px}
+.iblock h4{font-size:.77rem;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.iblock p,.iblock li{font-size:.83rem;color:var(--mut);line-height:1.6}
+.iblock ul{padding-left:16px}
+.pbar{height:7px;background:rgba(255,255,255,.07);border-radius:4px;margin:6px 0;overflow:hidden}
+.pfill{height:100%;border-radius:4px}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:.7rem;margin:2px;border:1px solid}
+.risk-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:3px;height:260px;margin:16px 0}
+.rc{border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.62rem;text-align:center;padding:3px;font-weight:500;position:relative}
+.rc .dot{position:absolute;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;border:2px solid rgba(255,255,255,.4);cursor:pointer;transition:transform .2s}
+.rc .dot:hover{transform:scale(1.2)}
+.risk-labels-x{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;text-align:center;font-size:.7rem;color:var(--mut);margin-bottom:4px}
+.risk-labels-y{display:flex;flex-direction:column;justify-content:space-between;font-size:.7rem;color:var(--mut);text-align:right;padding-right:6px;height:260px}
+.nash-grid{display:grid;grid-template-columns:auto repeat(3,1fr);gap:3px;margin:16px 0;font-size:.82rem}
+.nc{padding:11px;text-align:center;border-radius:4px}
+.nh{background:rgba(201,168,76,.12);color:var(--gold);font-weight:600;font-size:.75rem}
+.nrh{background:rgba(201,168,76,.07);color:var(--gl);font-weight:500;font-size:.77rem;display:flex;align-items:center;padding:11px}
+.nv{background:var(--nm);color:var(--txt)}
+.neq{background:rgba(34,197,94,.15)!important;border:1px solid rgba(34,197,94,.4);color:#4ade80;font-weight:600}
+.note{background:rgba(201,168,76,.07);border-left:3px solid var(--gold);padding:12px 16px;margin:14px 0;font-size:.83rem;border-radius:0 4px 4px 0;color:var(--mut)}
+.note strong{color:var(--gl)}
+.waterfall{display:flex;align-items:flex-end;gap:8px;height:220px;margin:16px 0;padding-bottom:30px;position:relative}
+.wbar{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.wbar-fill{width:100%;border-radius:4px 4px 0 0;transition:height 1s ease;position:relative;min-height:4px}
+.wbar-label{font-size:.68rem;color:var(--mut);margin-top:6px;text-align:center;position:absolute;bottom:-24px;white-space:nowrap}
+.wbar-val{font-size:.72rem;font-family:'IBM Plex Mono',monospace;text-align:center;margin-bottom:3px;font-weight:500}
+.agent-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0}
+.agent{border-radius:8px;padding:16px;border:1px solid}
+.agent-firm{border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.06)}
+.agent-reg{border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.06)}
+.agent-con{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.agent h3{font-size:.85rem;font-weight:600;margin-bottom:8px}
+.agent p{font-size:.78rem;color:var(--mut);line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;font-size:.75rem}
+.leg-item{display:flex;align-items:center;gap:5px;color:var(--mut)}
+.leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+#mc-result{margin-top:12px;display:none}
+.mc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.mc-stat{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:12px;text-align:center}
+.mc-stat .v{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--gold)}
+.mc-stat .l{font-size:.7rem;color:var(--mut);margin-top:2px}
+.swan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+.swan{border-radius:8px;padding:18px;border:1px solid;position:relative;overflow:hidden}
+.swan::before{content:'🦢';position:absolute;right:14px;top:14px;font-size:2rem;opacity:.15}
+.swan h3{font-size:.88rem;font-weight:600;margin-bottom:6px}
+.swan p{font-size:.8rem;color:var(--mut);line-height:1.5}
+.swan-prob{font-size:.72rem;margin-top:8px;font-weight:500}
+.s1{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.07)}
+.s2{border-color:rgba(249,115,22,.35);background:rgba(249,115,22,.07)}
+.s3{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.07)}
+.s4{border-color:rgba(168,85,247,.35);background:rgba(168,85,247,.07)}
+.src a{color:var(--gl)}.src li{margin-bottom:6px}details pre{background:rgba(0,0,0,.3);border:1px solid var(--brd);border-radius:6px;padding:12px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mut);margin-top:8px;max-height:420px}details summary{cursor:pointer;color:var(--gold);font-size:.82rem}
+@media(max-width:700px){.sec{padding:16px 14px}.info2,.info3{grid-template-columns:1fr}.swan-grid{grid-template-columns:1fr}.agent-flow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>Аналитическая записка</h1>
+  <p>Стратегический анализ целевого рынка · STEEP + 5 сил Портера + Монте-Карло</p>
+  <div class="badges">
+    <span class="hbadge">Сектор: B2B SaaS / корпоративная разработка ПО · Россия</span>
+    <span class="hbadge">Горизонт: 3 года (2026–2028)</span>
+    <span class="hbadge">Итераций МК: 1000</span>
+    <span class="hbadge">Данные: проверенные факты + допущения автора (вкладка «Источники»)</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="sw(0)">1. STEEP</div>
+  <div class="tab" onclick="sw(1)">2. Силы Портера</div>
+  <div class="tab" onclick="sw(2)">3. IT-сектор РФ</div>
+  <div class="tab" onclick="sw(3)">4. Чувствительность</div>
+  <div class="tab" onclick="sw(4)">5. Монте-Карло</div>
+  <div class="tab" onclick="sw(5)">6. Чёрные лебеди</div>
+  <div class="tab" onclick="sw(6)">7. Агентная модель</div>
+  <div class="tab" onclick="sw(7)">8. Равновесие Нэша</div>
+  <div class="tab" onclick="sw(8)">📊 Карта рисков</div>
+  <div class="tab" onclick="sw(9)">Источники и допущения</div>
+</div>
+
+<!-- ===================== TAB 1: STEEP ===================== -->
+<div class="sec active" id="s0">
+  <div class="stitle">Задание 1 — STEEP-анализ + Динамические тренды</div>
+  <div class="ssub">Шесть трендов, влияющих на рынок B2B SaaS в России в 2026–2028 гг. Формула взвешенного индекса: W = Σ pᵢ · kᵢ. Вероятности pᵢ (шкала 0–1) и веса kᵢ (шкала 1–10) — экспертные оценки автора, а не статистика.</div>
+
+  <div class="formula">W = Σ(pᵢ × kᵢ) = 0.95×9 + 0.92×10 + 0.85×8 + 0.80×7 + 0.70×7 + 0.75×5 = <strong>38.80</strong></div>
+
+  <div class="mgrid">
+    <div class="metric"><div class="mval">38.80</div><div class="mlbl">Взвешенный индекс W</div></div>
+    <div class="metric"><div class="mval">6</div><div class="mlbl">Трендов выявлено</div></div>
+    <div class="metric"><div class="mval">9.2</div><div class="mlbl">Макс. вклад (AI/LLM)</div></div>
+    <div class="metric"><div class="mval">3.75</div><div class="mlbl">Мин. вклад (экология)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Тренды и их взвешенный вклад</div>
+    <table>
+      <thead><tr><th>#</th><th>Тренд</th><th>Категория</th><th>P (вероятность)</th><th>k (влияние)</th><th>pᵢ × kᵢ</th><th>Риск</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Курс на импортозамещение ПО (гос. директивы)</td><td><span class="tag" style="color:#f97316;border-color:#f97316">Политич.</span></td><td>0.95</td><td>9</td><td><strong>8.55</strong></td><td><span class="badge bh">Высокий</span></td></tr>
+        <tr><td>2</td><td>Экспансия AI/LLM-инструментов (замена функций)</td><td><span class="tag" style="color:#60a5fa;border-color:#60a5fa">Технол.</span></td><td>0.92</td><td>10</td><td><strong>9.20</strong></td><td><span class="badge bh">Высокий</span></td></tr>
+        <tr><td>3</td><td>Регуляторное давление (политико-правовое поле): 152-ФЗ, суверенный интернет</td><td><span class="tag" style="color:#f97316;border-color:#f97316">Политич.</span></td><td>0.85</td><td>8</td><td><strong>6.80</strong></td><td><span class="badge bh">Высокий</span></td></tr>
+        <tr><td>4</td><td>Острый дефицит IT-кадров (отток, конкуренция)</td><td><span class="tag" style="color:#4ade80;border-color:#4ade80">Социал.</span></td><td>0.80</td><td>7</td><td><strong>5.60</strong></td><td><span class="badge bm">Средний</span></td></tr>
+        <tr><td>5</td><td>Высокая ключевая ставка ЦБ → дорогой капитал</td><td><span class="tag" style="color:#fbbf24;border-color:#fbbf24">Эконом.</span></td><td>0.70</td><td>7</td><td><strong>4.90</strong></td><td><span class="badge bm">Средний</span></td></tr>
+        <tr><td>6</td><td>Рост цен на электроэнергию и требования к энергоэффективности ЦОД/облаков (ESG-запросы крупных заказчиков)</td><td><span class="tag" style="color:#34d399;border-color:#34d399">Эколог.</span></td><td>0.75</td><td>5</td><td><strong>3.75</strong></td><td><span class="badge bl">Низкий</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Вклад каждого тренда в индекс W</div>
+    <div class="chart-wrap"><canvas id="steepChart"></canvas></div>
+  </div>
+
+  <div class="note"><strong>Вывод:</strong> Наибольший вклад дают тренды AI/LLM (9.20) и импортозамещение (8.55). Индекс W = 38.80 — сумма экспертных оценок, поэтому его стоит использовать для ранжирования трендов, а не как абсолютную меру «турбулентности». Квантовые вычисления вынесены в «чёрные лебеди» (вкладка 6): для горизонта 2026–2028 это событие слишком маловероятно, чтобы быть базовым трендом (в прежней версии одно и то же событие имело p = 0,28 здесь и 3–5% в чёрных лебедях — это противоречие устранено). Экологический фактор добавлен, чтобы анализ соответствовал методу STEEP (Social, Technological, Economic, Ecological, Political); правовые изменения отнесены к политическому фактору.</div>
+</div>
+
+<!-- ===================== TAB 2: Porter ===================== -->
+<div class="sec" id="s1">
+  <div class="stitle">Задание 2 — 5 сил Портера: угроза субститутов от AI</div>
+  <div class="ssub">Оценка каждой силы по шкале 1–10 — экспертные оценки автора. Фокус — угроза появления товаров-субститутов со стороны нейросетевых моделей.</div>
+
+  <div class="info2">
+    <div class="card">
+      <div class="ctitle">Радар 5 сил Портера</div>
+      <div class="chart-wrap"><canvas id="porterChart"></canvas></div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="ctitle">Оценки сил</div>
+        <table>
+          <thead><tr><th>Сила</th><th>Балл</th><th>Оценка</th></tr></thead>
+          <tbody>
+            <tr><td>Угроза новых участников</td><td>7/10</td><td><span class="badge bm">Умеренно высокая</span></td></tr>
+            <tr><td>Власть поставщиков (облако, GPU)</td><td>6/10</td><td><span class="badge bm">Умеренная</span></td></tr>
+            <tr><td>Власть покупателей (B2B)</td><td>7/10</td><td><span class="badge bm">Умеренно высокая</span></td></tr>
+            <tr><td><strong>Угроза субститутов — AI</strong></td><td><strong>9/10</strong></td><td><span class="badge bh">КРИТИЧЕСКАЯ</span></td></tr>
+            <tr><td>Конкуренция внутри отрасли</td><td>8/10</td><td><span class="badge bh">Высокая</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="ctitle">Угроза субститутов от AI: детали</div>
+        <p style="font-size:.82rem;color:var(--mut);margin-bottom:10px">Оценка автора (субъективная шкала, не измерение): какая доля типовых задач в сегменте потенциально может быть передана нейросетевым моделям (GPT-4o, Gemini, Claude и др.):</p>
+        <div style="margin:6px 0">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span>Генерация кода / No-code</span><span style="color:var(--red)">95%</span></div>
+          <div class="pbar"><div class="pfill" style="width:95%;background:#ef4444"></div></div>
+        </div>
+        <div style="margin:6px 0">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span>Аналитика данных / BI</span><span style="color:var(--orn)">78%</span></div>
+          <div class="pbar"><div class="pfill" style="width:78%;background:#f97316"></div></div>
+        </div>
+        <div style="margin:6px 0">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span>CRM-автоматизация</span><span style="color:var(--orn)">65%</span></div>
+          <div class="pbar"><div class="pfill" style="width:65%;background:#f59e0b"></div></div>
+        </div>
+        <div style="margin:6px 0">
+          <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span>Кибербезопасность (SIEM)</span><span style="color:var(--blu)">40%</span></div>
+          <div class="pbar"><div class="pfill" style="width:40%;background:#60a5fa"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>Вывод:</strong> Угроза субститутов оценивается в <strong>9/10</strong> — это наиболее критическая сила для B2B SaaS. Во многих вертикалях (HR-tech, финтех, аналитика) уже появляются open-source или API-альтернативы на базе LLM. Стратегический ответ: перейти от продажи функций к продаже интеграции и данных (data moat).</div>
+</div>
+
+<!-- ===================== TAB 3: IT Sector ===================== -->
+<div class="sec" id="s2">
+  <div class="stitle">Задание 3 — IT-сектор России: группировка и NPV/IRR</div>
+  <div class="ssub">Компании разбиты на 3 группы по выручке за 2025 год. В таблице — только компании, у которых выручка подтверждена публичными источниками (см. вкладку «Источники»). NPV и IRR проектов — условные допущения модели: компании не публикуют NPV отдельных проектов.</div>
+
+  <div class="info3">
+    <div class="metric"><div class="mval" style="color:#60a5fa">A</div><div class="mlbl">Крупные >30 млрд ₽</div></div>
+    <div class="metric"><div class="mval" style="color:#f97316">B</div><div class="mlbl">Средние 5–30 млрд ₽</div></div>
+    <div class="metric"><div class="mval" style="color:#22c55e">C</div><div class="mlbl">Малые <5 млрд ₽</div></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Состав групп (выручка 2025, подтверждена) и условные параметры проектов</div>
+    <table>
+      <thead><tr><th>Группа</th><th>Подтверждено публичными данными за 2025 г.</th><th>Условный NPV проекта*</th><th>Условный IRR*</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:#60a5fa">A (&gt;30 млрд ₽)</strong></td><td>Softline — оборот 132,1 млрд ₽ (оборот, не выручка по МСФО); СКБ Контур — 48,3 млрд ₽; Positive Technologies — 30,9 млрд ₽ (МСФО, у самой границы порога)</td><td>750–900 млн ₽</td><td>22–26%</td></tr>
+        <tr><td><strong style="color:#f97316">B (5–30 млрд ₽)</strong></td><td>Группа Астра — свыше 20 млрд ₽ (МСФО). Прежняя версия относила её к группе A — это было ошибкой.</td><td>180–320 млн ₽</td><td>32–38%</td></tr>
+        <tr><td><strong style="color:#22c55e">C (&lt;5 млрд ₽)</strong></td><td>Подтверждённых данных нет</td><td>40–80 млн ₽</td><td>44–54%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.76rem;color:var(--mut);margin-top:10px">Исключены до проверки по отчётности (в прежней версии стояли в группах без подтверждения): 1С, Kaspersky, КРОК, IBS, Naumen, Dr.Web, Базальт СПО. <br>* NPV и IRR — иллюстративные допущения для сравнения профилей «масштаб / доходность», а не данные отчётности.</p>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Условные NPV и IRR по группам (допущения модели, не отчётность)</div>
+    <div class="chart-wrap" style="height:300px"><canvas id="npvChart"></canvas></div>
+  </div>
+
+  <div class="note"><strong>Логика допущений:</strong> принято, что у малых компаний выше доходность при меньшем абсолютном NPV, у крупных — наоборот (масштаб при больших капзатратах). Это модельная гипотеза, а не вывод из данных: проверить её можно только на внутренней отчётности по проектам. Группа B в этой рамке — промежуточный вариант между масштабом и доходностью.</div>
+</div>
+
+<!-- ===================== TAB 4: Sensitivity ===================== -->
+<div class="sec" id="s3">
+  <div class="stitle">Задание 4 — Анализ чувствительности</div>
+  <div class="ssub">Шок-сценарий: падение спроса на 15% + одновременный рост CAC на 25%. Базовая модель условная и нормирована (выручка = 100 млн ₽).</div>
+
+  <div class="info2">
+    <div class="card">
+      <div class="ctitle">Базовая модель P&amp;L</div>
+      <table>
+        <thead><tr><th>Статья</th><th>База</th><th>Шок-сценарий</th><th>Δ</th></tr></thead>
+        <tbody>
+          <tr><td>Выручка</td><td>100 млн ₽</td><td>85 млн ₽ (-15%)</td><td style="color:var(--red)">-15 млн</td></tr>
+          <tr><td>COGS (переменные)</td><td>42 млн ₽</td><td>35.7 млн ₽</td><td style="color:var(--grn)">-6.3 млн</td></tr>
+          <tr><td>CAC (привлечение)</td><td>12 млн ₽</td><td>15 млн ₽ (+25%)</td><td style="color:var(--red)">+3 млн</td></tr>
+          <tr><td>Постоянные расходы</td><td>30 млн ₽</td><td>30 млн ₽</td><td>0</td></tr>
+          <tr><td><strong>EBIT</strong></td><td><strong>16 млн ₽</strong></td><td><strong>4.3 млн ₽</strong></td><td style="color:var(--red)"><strong>-73.1%</strong></td></tr>
+          <tr><td>Рентабельность</td><td>16%</td><td>5.1%</td><td style="color:var(--red)">-10.9 п.п.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ctitle">Вклад факторов в изменение EBIT (млн ₽)</div>
+      <div class="chart-wrap" style="height:240px"><canvas id="sensChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Водопад: декомпозиция изменения EBIT</div>
+    <div style="display:flex;align-items:flex-end;gap:6px;height:200px;padding-bottom:36px;padding-top:20px;position:relative">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:.72rem;color:var(--gold);margin-bottom:2px">16.0</div>
+        <div style="width:100%;height:120px;background:rgba(96,165,250,.5);border-radius:4px 4px 0 0;border:1px solid rgba(96,165,250,.6)"></div>
+        <div style="font-size:.65rem;color:var(--mut);margin-top:4px;text-align:center">EBIT база</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:.72rem;color:var(--red);margin-bottom:2px">-15.0</div>
+        <div style="width:100%;height:112px;background:rgba(239,68,68,.4);border-radius:4px 4px 0 0;border:1px solid rgba(239,68,68,.5)"></div>
+        <div style="font-size:.65rem;color:var(--mut);margin-top:4px;text-align:center">Падение выручки</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:.72rem;color:var(--grn);margin-bottom:2px">+6.3</div>
+        <div style="width:100%;height:47px;background:rgba(34,197,94,.4);border-radius:4px 4px 0 0;border:1px solid rgba(34,197,94,.5)"></div>
+        <div style="font-size:.65rem;color:var(--mut);margin-top:4px;text-align:center">↓ COGS</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:.72rem;color:var(--red);margin-bottom:2px">-3.0</div>
+        <div style="width:100%;height:22px;background:rgba(249,115,22,.5);border-radius:4px 4px 0 0;border:1px solid rgba(249,115,22,.5)"></div>
+        <div style="font-size:.65rem;color:var(--mut);margin-top:4px;text-align:center">↑ CAC +25%</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:.72rem;color:var(--gl);margin-bottom:2px">4.3</div>
+        <div style="width:100%;height:32px;background:rgba(201,168,76,.4);border-radius:4px 4px 0 0;border:1px solid rgba(201,168,76,.5)"></div>
+        <div style="font-size:.65rem;color:var(--mut);margin-top:4px;text-align:center">EBIT новый</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:8px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--red);font-weight:500">ΔEBIT = -11.7 млн ₽ (-73.1%)</div>
+    </div>
+  </div>
+
+  <div class="note"><strong>Вывод:</strong> Двойной шок (−15% выручка + +25% CAC) уничтожает <strong>73% прибыли</strong>. Наиболее опасный канал — фиксированные расходы: при падении выручки они не сжимаются, создавая эффект операционного рычага. Расчёт из модели: при CAC = 15 млн ₽ и постоянных затратах 30 млн ₽ безубыточность наступает при выручке ≈ 77,6 млн ₽ (45 ÷ 0,58), то есть запас прочности — падение выручки не более ≈ 22% от базы.</div>
+</div>
+
+<!-- ===================== TAB 5: Monte Carlo ===================== -->
+<div class="sec" id="s4">
+  <div class="stitle">Задание 5 — Монте-Карло: окупаемость проектов за 2 года</div>
+  <div class="ssub">Статистическое моделирование (≥1000 итераций). Параметры распределений — допущения автора (публичных бенчмарков по CAPEX и денежным потокам проектов нет).</div>
+
+  <div class="info3">
+    <div class="iblock">
+      <h4>Инвестиции (CAPEX)</h4>
+      <p>Равномерное распределение U[5; 12] млн ₽<br>Среднее: 8.5 млн ₽</p>
+    </div>
+    <div class="iblock">
+      <h4>NCF год 1</h4>
+      <p>Нормальное N(μ=4.2, σ=1.6) млн ₽<br>95% CI: [1.1; 7.3]</p>
+    </div>
+    <div class="iblock">
+      <h4>NCF год 2</h4>
+      <p>Нормальное N(μ=5.5, σ=2.0) млн ₽<br>Рост клиентской базы учтён</p>
+    </div>
+  </div>
+
+  <div class="formula">Условие окупаемости: NCF₁ + NCF₂ ≥ Инвестиции</div>
+
+  <div class="card" style="text-align:center;padding:24px">
+    <button class="btn" onclick="runMC()">▶ Запустить Монте-Карло (1000 итераций)</button>
+    <button class="btn btn-sec" onclick="runMC(5000)">▶▶ 5000 итераций</button>
+  </div>
+
+  <div id="mc-result">
+    <div class="mc-stats">
+      <div class="mc-stat"><div class="v" id="mc-prob">—</div><div class="l">P(окупаемость ≤2 лет)</div></div>
+      <div class="mc-stat"><div class="v" id="mc-mean">—</div><div class="l">Средний ROI</div></div>
+      <div class="mc-stat"><div class="v" id="mc-std">—</div><div class="l">Стд. отклонение ROI</div></div>
+      <div class="mc-stat"><div class="v" id="mc-p5">—</div><div class="l">5-й перцентиль ROI</div></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Распределение ROI проектов (гистограмма)</div>
+      <div class="chart-wrap" style="height:300px"><canvas id="mcChart"></canvas></div>
+    </div>
+    <div id="mc-note" class="note"></div>
+  </div>
+</div>
+
+<!-- ===================== TAB 6: Black Swans ===================== -->
+<div class="sec" id="s5">
+  <div class="stitle">Задание 6 — Чёрные лебеди: критические события</div>
+  <div class="ssub">Маловероятные, но катастрофические события, способные обнулить ценность IT-продуктов компании на российском рынке B2B SaaS. Вероятности — экспертные оценки автора на горизонт 2026–2028, а не статистика.</div>
+
+  <div class="swan-grid">
+    <div class="swan s1">
+      <h3>🦢 Квантовый взлом шифрования</h3>
+      <p>Рабочий криптографически значимый квантовый компьютер делает устаревшими все продукты на базе RSA/ECC (кибербезопасность, ЭЦП, VPN). Весь рынок кибер-SaaS обнуляется за 6–12 месяцев.</p>
+      <div class="swan-prob">P ≈ 3–5% · Импакт: 10/10 · <span class="badge bh">Экзистенциальный</span></div>
+    </div>
+    <div class="swan s2">
+      <h3>🦢 Законодательный запрет AI-продуктов</h3>
+      <p>Регуляторный шок по образцу «AI-мораторий»: запрет коммерческого использования AI без сертификации. Продукты на базе LLM теряют статус легальных. Срок реакции рынка — 3 месяца.</p>
+      <div class="swan-prob">P ≈ 8–12% · Импакт: 9/10 · <span class="badge bh">Критический</span></div>
+    </div>
+    <div class="swan s3">
+      <h3>🦢 Открытый аналог-разрушитель</h3>
+      <p>Выход бесплатной open-source модели (условно «Mistral-RU»), полностью воспроизводящей функциональность коммерческого продукта. Монетизация через SaaS становится невозможной — рынок уходит в self-hosted.</p>
+      <div class="swan-prob">P ≈ 15–20% · Импакт: 8/10 · <span class="badge bm">Высокий</span></div>
+    </div>
+    <div class="swan s4">
+      <h3>🦢 Масштабная утечка данных клиентов</h3>
+      <p>Кибератака с экспозицией данных всей клиентской базы (enterprise B2B). Штрафы по 152-ФЗ + репутационная смерть: отток 80%+ клиентов в течение квартала. Для SaaS-компании — банкротство.</p>
+      <div class="swan-prob">P ≈ 5–10% · Импакт: 9/10 · <span class="badge bh">Критический</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Матрица воздействия чёрных лебедей</div>
+    <table>
+      <thead><tr><th>Событие</th><th>Вероятность</th><th>Скорость удара</th><th>Recoverable?</th><th>Митигация</th></tr></thead>
+      <tbody>
+        <tr><td>Квантовый взлом</td><td>3–5%</td><td>Быстро (6 мес)</td><td><span class="badge bh">Нет</span></td><td>Post-quantum crypto (NIST PQC)</td></tr>
+        <tr><td>Запрет AI</td><td>8–12%</td><td>Быстро (3 мес)</td><td><span class="badge bm">Частично</span></td><td>Лоббирование + сертификация</td></tr>
+        <tr><td>Open-source аналог</td><td>15–20%</td><td>Медленно (1–2 года)</td><td><span class="badge bl">Да</span></td><td>Pivot на данные / интеграцию</td></tr>
+        <tr><td>Утечка данных</td><td>5–10%</td><td>Мгновенно</td><td><span class="badge bh">Нет</span></td><td>Zero-trust + киберстрахование</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== TAB 7: Agent Model ===================== -->
+<div class="sec" id="s6">
+  <div class="stitle">Задание 7 — Агентная модель: 3 типа + AI-брокер (RL)</div>
+  <div class="ssub">Стилизованная мультиагентная симуляция (запущена, код ниже): вендоры обучаются табличным Q-learning, спрос — логит-модель потребителя. Проверяется влияние доли агентов с идентичным алгоритмом на волатильность цен. Регулятор описан концептуально и в симуляции не реализован.</div>
+
+  <div class="agent-flow">
+    <div class="agent agent-firm">
+      <h3 style="color:#60a5fa">🏢 Агент: Фирма (IT-вендор)</h3>
+      <p><strong>Цель:</strong> Максимизировать прибыль π = (p − c) · q<br><br>
+      <strong>Стратегии:</strong><br>
+      • Ценообразование на основе ценности (value-based)<br>
+      • Адаптация к рыночному спросу (price-elastic)<br>
+      • Минимизация оттока клиентов (churn)</p>
+      <p style="margin-top:8px"><strong>В симуляции:</strong><br>цена выбирается из 5 уровней (1,2–2,0), обучение — Q-learning (см. ниже); издержки c = 1,0.</p>
+    </div>
+    <div class="agent agent-reg">
+      <h3 style="color:#f97316">⚖️ Агент: Регулятор (концепция, не симулирован)</h3>
+      <p><strong>Цель:</strong> Минимизировать системный риск, контролировать HHI < 2500<br><br>
+      <strong>Стратегии:</strong><br>
+      • Штрафы за хищническое ценообразование<br>
+      • Ограничение монопольной доли рынка<br>
+      • Обязательная сертификация AI-продуктов</p>
+      <p style="margin-top:8px"><strong>Триггер вмешательства:</strong><br>
+      Если Δp > −30% за квартал → расследование</p>
+    </div>
+    <div class="agent agent-con">
+      <h3 style="color:#22c55e">👤 Агент: Потребитель (B2B)</h3>
+      <p><strong>Цель:</strong> Максимизировать полезность U при бюджете B<br><br>
+      <strong>Стратегии:</strong><br>
+      • Выбор поставщика по TCO (цена + интеграция)<br>
+      • Переговоры о долгосрочных контрактах<br>
+      • Диверсификация вендоров (multi-source)</p>
+      <p style="margin-top:8px"><strong>В симуляции:</strong><br>логит-спрос: доля_i ∝ exp((a − p_i)/μ), a = 2,0, μ = 0,25; плюс общий для рынка случайный шок спроса (σ = 0,1).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">AI-брокер с обучением с подкреплением (Q-learning)</div>
+    <div class="info2">
+      <div class="iblock">
+        <h4>Архитектура агента</h4>
+        <ul>
+          <li>Состояние S: округлённая средняя цена рынка прошлого шага (5 уровней)</li>
+          <li>Действие A: выбор цены из {1,2; 1,4; 1,6; 1,8; 2,0}</li>
+          <li>Награда R: прибыль за шаг (p − c) · доля</li>
+          <li>Алгоритм: Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',a') − Q(s,a)]</li>
+        </ul>
+      </div>
+      <div class="iblock">
+        <h4>Параметры обучения</h4>
+        <ul>
+          <li>α (learning rate) = 0,05; γ = 0,95; ε-greedy ε = 0,1</li><li>10 вендоров, 60 000 шагов за запуск; волатильность измерена на последних 10 000</li><li>Конфигурации: 0 / 2 / 4 / 6 / 8 вендоров используют одну общую Q-таблицу (идентичный алгоритм), остальные учатся независимо</li><li>По 20 независимых запусков на конфигурацию</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Результат симуляции: доля идентичных алгоритмов → волатильность средней цены</div>
+    <div class="chart-wrap" style="height:240px"><canvas id="volChart"></canvas></div>
+    <table style="margin-top:10px">
+      <thead><tr><th>Доля вендоров с общей Q-таблицей</th><th>σ средней цены (среднее по 20 запускам)</th><th>Станд. ошибка</th><th>Δ к базе (0%)</th><th>t-статистика (Уэлч)</th></tr></thead>
+      <tbody><tr><td>0%</td><td>0,0508</td><td>±0,0011</td><td>—</td><td>—</td></tr><tr><td>20%</td><td>0,0491</td><td>±0,0009</td><td>−3,4%</td><td>-1,2</td></tr><tr><td>40%</td><td>0,0464</td><td>±0,0009</td><td>−8,7%</td><td>-3,1</td></tr><tr><td>60%</td><td>0,0557</td><td>±0,0016</td><td>+9,6%</td><td>2,5</td></tr><tr><td>80%</td><td>0,0655</td><td>±0,0010</td><td>+29,0%</td><td>10,3</td></tr></tbody>
+    </table>
+    <div class="note" style="margin-top:12px">
+      <strong>Вывод:</strong> прежняя гипотеза «40% идентичных агентов повышают волатильность на 52–68%» в симуляции <strong>не подтвердилась</strong>. При доле 40% волатильность оказалась на 8,7% ниже базовой (t ≈ -3,1), заметный рост появляется только при доле 60% (+9,6%) и 80% (+29,0%). Прежняя формула σ·√[1+(N−1)ρ] относится к сумме коррелированных величин и для средней цены не применима. <br><br>
+      <strong>Ограничения:</strong> модель стилизованная (10 фирм, 5 ценовых уровней, табличный Q-learning, общий шок спроса); результат зависит от параметров, чувствительность к ним не исследована; регулятор не моделировался, поэтому вывод о пороге «20% идентичных алгоритмов» исключён как необоснованный.
+    </div>
+    <details style="margin-top:10px"><summary>Код симуляции (Python, воспроизводимо)</summary><pre>&quot;&quot;&quot;Стилизованная агентная модель: N вендоров, логит-спрос, табличный Q-learning.
+Доля M агентов использует ОДНУ общую Q-таблицу (идентичный алгоритм, общие данные),
+остальные учатся независимо. Исследуем волатильность средней цены.&quot;&quot;&quot;
+import numpy as np, json, sys
+
+N = 10
+PRICES = np.array([1.2, 1.4, 1.6, 1.8, 2.0])
+K = len(PRICES)
+C = 1.0; A = 2.0; A0 = 0.0; MU = 0.25
+ALPHA, GAMMA, EPS = 0.05, 0.95, 0.10
+T_TOTAL, T_MEASURE = 60000, 10000
+SHOCK = 0.10  # std экзогенного шока спроса (общий для рынка)
+
+
+def profits(p, shock):
+    u = np.exp((A + shock - p) / MU)
+    share = u / (u.sum() + np.exp(A0 / MU))
+    return (p - C) * share
+
+
+def run(n_shared, seed):
+    rng = np.random.default_rng(seed)
+    # индекс Q-таблицы для каждого агента: общий (0) для первых n_shared, свой для остальных
+    table_id = np.array([0] * n_shared + list(range(1, N - n_shared + 1)))
+    Q = np.zeros((N - n_shared + 1, K, K))  # [таблица, состояние, действие]
+    state = 2
+    mean_prices = []
+    for t in range(T_TOTAL):
+        qrows = Q[table_id, state]                       # (N, K)
+        greedy = qrows.argmax(axis=1)
+        explore = rng.random(N) &lt; EPS
+        a = np.where(explore, rng.integers(0, K, N), greedy)
+        p = PRICES[a]
+        r = profits(p, rng.normal(0, SHOCK))
+        ns = int(np.clip(np.rint((p.mean() - PRICES[0]) / 0.2), 0, K - 1))
+        for i in range(N):
+            tid = table_id[i]
+            td = r[i] + GAMMA * Q[tid, ns].max() - Q[tid, state, a[i]]
+            Q[tid, state, a[i]] += ALPHA * td
+        state = ns
+        mean_prices.append(p.mean())
+    mp = np.array(mean_prices[-T_MEASURE:])
+    return mp.std(), np.abs(np.diff(mp)).mean(), mp.mean()
+
+
+if __name__ == &quot;__main__&quot;:
+    SEEDS = int(sys.argv[1]) if len(sys.argv) &gt; 1 else 12
+    out = {}
+    for n_shared in [0, 2, 4, 6, 8]:
+        res = np.array([run(n_shared, s) for s in range(SEEDS)])
+        out[n_shared] = {
+            &quot;std_mean&quot;: res[:, 0].mean(), &quot;std_sd&quot;: res[:, 0].std(ddof=1),
+            &quot;absdiff_mean&quot;: res[:, 1].mean(), &quot;price_mean&quot;: res[:, 2].mean(),
+            &quot;std_all&quot;: res[:, 0].tolist(),
+        }
+        print(n_shared, out[n_shared][&quot;std_mean&quot;], out[n_shared][&quot;std_sd&quot;], flush=True)
+    json.dump(out, open(&quot;/tmp/abm_results.json&quot;, &quot;w&quot;), indent=1)
+</pre></details>
+  </div>
+</div>
+
+<!-- ===================== TAB 8: Nash ===================== -->
+<div class="sec" id="s7">
+  <div class="stitle">Задание 8 — Равновесие Нэша в условиях неполной информации</div>
+  <div class="ssub">Конкуренты — «чёрные ящики» с нейросетью (100 000 симуляций/сек). Матрица выигрышей: (наша фирма, конкурент). Поиск равновесий Нэша и лучшего ответа при заданных вероятностях типов конкурента. Выигрыши — условные единицы (допущение автора).</div>
+
+  <div class="card">
+    <div class="ctitle">Матрица выигрышей (Payoff Matrix), единицы — доля рынка × прибыль</div>
+    <div class="nash-grid">
+      <div class="nc nh">Наша стратегия ↓ / Конкурент →</div>
+      <div class="nc nh">C1: Хищническое ценообразование (AI)</div>
+      <div class="nc nh">C2: Стандартная конкуренция</div>
+      <div class="nc nh">C3: Кооперация / сигнал</div>
+
+      <div class="nc nrh">S1: Ценовая война (снижение цены)</div>
+      <div class="nc nv">(-4, +9)<br><small>Проигрываем AI</small></div>
+      <div class="nc nv">(+5, +5)<br><small>Паритет</small></div>
+      <div class="nc nv">(+7, +3)<br><small>Лидируем</small></div>
+
+      <div class="nc nrh">S2: Дифференциация (уникальные функции)</div>
+      <div class="nc neq">(+6, +4) ★<br><small>Уходим из войны</small></div>
+      <div class="nc nv">(+7, +4)<br><small>Лидируем</small></div>
+      <div class="nc neq">(+8, +4) ★<br><small>Равновесие</small></div>
+
+      <div class="nc nrh">S3: Долгосрочные контракты (lock-in)</div>
+      <div class="nc nv">(+4, +6)<br><small>Частичная защита</small></div>
+      <div class="nc nv">(+8, +3)<br><small>Лучший ответ на C2, но не равновесие</small></div>
+      <div class="nc nv">(+6, +6)<br><small>Кооперация</small></div>
+    </div>
+    <p style="font-size:.78rem;color:var(--mut);margin-top:8px">★ — чистые равновесия Нэша: (S2, C1) и (S2, C3). Проверено по лучшим ответам обоих игроков.</p>
+  </div>
+
+  <div class="info2">
+    <div class="iblock">
+      <h4>Анализ равновесий</h4>
+      <ul>
+        <li>Лучшие ответы нашей фирмы: на C1 → <strong>S2</strong> (6), на C2 → <strong>S3</strong> (8), на C3 → <strong>S2</strong> (8).</li>
+        <li>Лучшие ответы конкурента: на S1 → C1 (9); на S2 безразличен (везде 4); на S3 → C1 или C3 (6 &gt; 3).</li>
+        <li>Равновесия: (S2, C1) и (S2, C3) — слабые, так как против S2 конкурент безразличен. (S3, C2) равновесием не является: против S3 конкурент предпочёл бы C1 или C3.</li>
+        <li>S1 строго доминируется S2 в каждом столбце (−4 &lt; 6, 5 &lt; 7, 7 &lt; 8).</li>
+        <li>При p(C1) = 0,6, p(C2) = 0,4: ожидаемый выигрыш S2 = 6,4; S3 = 5,6; S1 = −0,4. Лучший ответ — чистая S2.</li>
+        <li>Смешивать S2 и S3 имеет смысл только при p(C1) = 1/3 (и p(C3) = 0): там обе дают 6,67.</li>
+      </ul>
+    </div>
+    <div class="iblock">
+      <h4>Стратегия защиты от хищнического ценообразования</h4>
+      <ul>
+        <li><strong>Шаг 1:</strong> Дифференциация — уникальные функции и интеграции с ERP/CRM клиента (S2 — равновесная стратегия; заодно растут switching costs)</li>
+        <li><strong>Шаг 2:</strong> 2–3-летние контракты с exit penalty как дополнение (S3 — лучший ответ, если конкурент играет стандартно)</li>
+        <li><strong>Шаг 3:</strong> Мониторить ценовые действия конкурентов (парсинг публичных прайсов)</li>
+        <li><strong>Шаг 4:</strong> Reputation effect — демонстрировать стабильность цен публично</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note"><strong>Вывод:</strong> оптимальна чистая стратегия S2 «Дифференциация». Она даёт максимальный гарантированный выигрыш (минимум 6, у S3 — 4) и является лучшим ответом при p(C1) = 0,6. Смешанная стратегия 55% / 45% была бы хуже: против хищнического конкурента она даёт 5,1 вместо 6. Строго говоря, это лучший ответ при заданных вероятностях, а не полное байесовское равновесие: конкурент здесь «чёрный ящик» без заданной функции типов. S1 (ценовая война) строго доминируема и исключается.</div>
+</div>
+
+<!-- ===================== TAB 9: Risk Map ===================== -->
+<div class="sec" id="s8">
+  <div class="stitle">Карта стратегических рисков + Распределение вероятностей</div>
+  <div class="ssub">Итоговая аналитическая записка: позиционирование выявленных рисков по осям «вероятность × импакт» (оценки экспертные).</div>
+
+  <div class="info2">
+    <div class="card">
+      <div class="ctitle">Матрица стратегических рисков 5×5</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <div style="display:flex;flex-direction:column;justify-content:space-between;font-size:.65rem;color:var(--mut);text-align:right;height:250px;padding:2px 0;min-width:70px">
+          <span>Очень высокая</span><span>Высокая</span><span>Средняя</span><span>Низкая</span><span>Очень низкая</span>
+        </div>
+        <div style="flex:1">
+          <div class="risk-grid" id="riskGrid"></div>
+          <div class="risk-labels-x">
+            <span>Мин.</span><span>Низкий</span><span>Средний</span><span>Высокий</span><span>Крит.</span>
+          </div>
+          <div style="text-align:center;font-size:.7rem;color:var(--mut);margin-top:4px">← ИМПАКТ →</div>
+        </div>
+      </div>
+      <div class="legend" style="margin-top:14px">
+        <div class="leg-item"><div class="leg-dot" style="background:#3b82f6"></div>Импортозамещение</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>AI-субституты</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#22c55e"></div>Дефицит кадров</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Ставка ЦБ</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Утечка данных</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#ec4899"></div>Запрет AI</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#06b6d4"></div>Open-source</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>Квантум</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Распределение вероятностей рисков</div>
+      <div class="chart-wrap" style="height:280px"><canvas id="riskChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Итоговые рекомендации</div>
+    <table>
+      <thead><tr><th>Горизонт</th><th>Приоритет</th><th>Действие</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr><td>0–6 мес</td><td><span class="badge bh">Критично</span></td><td>Приоритет — дифференциация (уникальные функции и интеграции, стратегия S2); LT-контракты как дополнительная защита; мониторинг цен конкурентов</td><td>Доля выручки от уникальных функций; lock-in rate</td></tr>
+        <tr><td>6–18 мес</td><td><span class="badge bm">Высоко</span></td><td>Пройти сертификацию по 152-ФЗ; получить статус реестра отечественного ПО</td><td>Реестр Минцифры</td></tr>
+        <tr><td>18–36 мес</td><td><span class="badge bl">Средне</span></td><td>Внедрить post-quantum шифрование; создать data moat (уникальные данные клиентов)</td><td>NIST PQC compliance</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== TAB 10: Sources ===================== -->
+<div class="sec" id="s9">
+  <div class="stitle">Источники и допущения</div>
+  <div class="ssub">Что в записке подтверждено публичными данными, а что — допущение автора.</div>
+  <div class="card src">
+    <div class="ctitle">Подтверждённые факты</div>
+    <ul style="padding-left:18px;font-size:.85rem;color:var(--mut);line-height:1.6">
+      <li><strong>Группа Астра</strong>: выручка по МСФО за 2025 год превысила 20 млрд ₽ (+18%), отгрузки — 22 млрд ₽. <a href="https://companies.rbc.ru/news/hgNnRCDTxn/vyiruchka-gruppyi-astra-vyirosla-na-18-za-2025-god/">РБК Компании</a></li>
+      <li><strong>Positive Technologies</strong>: выручка по МСФО за 2025 год — 30,9 млрд ₽ (+26%). <a href="https://www.anti-malware.ru/news/2026-04-07-111332/49630">Anti-Malware.ru</a></li>
+      <li><strong>Softline</strong>: оборот группы за 2025 год — 132,1 млрд ₽ (+10%). <a href="https://kod.ru/softline-lider-it-postavshchikov-riteyl">kod.ru</a></li>
+      <li><strong>СКБ Контур</strong>: выручка за 2025 год — 48,3 млрд ₽. <a href="https://kontur.ru/press/news/87111-skb_kontur_zanyal_13_mesto_sredi_500_krupnejshix_it_kompanij_rossii">kontur.ru</a></li>
+      <li><strong>Рынок</strong>: по CNews500 суммарная выручка 500 крупнейших ИТ-компаний за 2025 год — 3,56 трлн ₽ (+8,04%); оценка самого рынка — 3,55 трлн ₽ (+14,15%), ожидаемое замедление в 2026 году до ~10–11%. Оценки размера отрасли сильно расходятся из-за методологии (АНО «Цифровая экономика» — почти 14 трлн ₽, НИУ ВШЭ — 9,36 трлн ₽). <a href="https://www.unisender.com/ru/blog/news/cnews-nazval-500-krupnejshih-it-kompanij-rossii-v-rejting-voshel-unisender/">CNews Analytics (через Unisender)</a></li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="ctitle">Допущения автора (не данные)</div>
+    <ul style="padding-left:18px;font-size:.85rem;color:var(--mut);line-height:1.6">
+      <li>Вероятности pᵢ и веса kᵢ в STEEP; баллы сил Портера; проценты «замещения» задач нейросетями.</li>
+      <li>NPV и IRR по группам компаний (компании не публикуют NPV отдельных проектов).</li>
+      <li>Параметры P&amp;L в анализе чувствительности и распределения в модели Монте-Карло.</li>
+      <li>Вероятности и импакт «чёрных лебедей», положения на карте рисков.</li>
+      <li>Платёжная матрица и вероятности типов конкурента в задании 8.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="ctitle">Не проверено</div>
+    <p style="font-size:.85rem;color:var(--mut);line-height:1.6">Выручка 1С, Kaspersky, КРОК, IBS, Naumen, Dr.Web и Базальт СПО по отчётности за 2025 год не подтверждена, поэтому эти компании исключены из групп. Перед показом стоит свериться с рейтингами CNews500 / TAdviser100 или данными ФНС.</p>
+  </div>
+</div>
+
+<script>
+// ---- Tab switching ----
+const tabs = document.querySelectorAll('.tab');
+const secs = document.querySelectorAll('.sec');
+const chartInited = {};
+
+function sw(i) {
+  tabs.forEach((t,j) => { t.classList.toggle('active', i===j); });
+  secs.forEach((s,j) => { s.classList.toggle('active', i===j); });
+  setTimeout(() => initChart(i), 50);
+}
+
+// ---- Normal random (Box-Muller) ----
+function nr(m, s) {
+  let u=0,v=0;
+  while(!u) u=Math.random(); while(!v) v=Math.random();
+  return m + s * Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+
+// ---- Monte Carlo ----
+let mcChart = null;
+function runMC(N=1000) {
+  const rois = [], ncfs = [];
+  let payback = 0;
+  for(let i=0;i<N;i++) {
+    const inv = 5 + Math.random()*7;
+    const n1 = nr(4.2, 1.6);
+    const n2 = nr(5.5, 2.0);
+    const total = n1 + n2;
+    const roi = ((total - inv)/inv)*100;
+    rois.push(roi);
+    if(total >= inv) payback++;
+  }
+  const prob = payback/N;
+  const mean = rois.reduce((a,b)=>a+b,0)/N;
+  const std = Math.sqrt(rois.reduce((a,b)=>a+(b-mean)**2,0)/N);
+  const sorted = [...rois].sort((a,b)=>a-b);
+  const p5 = sorted[Math.floor(N*0.05)];
+
+  document.getElementById('mc-prob').textContent = (prob*100).toFixed(1)+'%';
+  document.getElementById('mc-mean').textContent = mean.toFixed(1)+'%';
+  document.getElementById('mc-std').textContent = '±'+std.toFixed(1)+'%';
+  document.getElementById('mc-p5').textContent = p5.toFixed(1)+'%';
+  document.getElementById('mc-result').style.display='block';
+
+  // Histogram bins
+  const bins = []; const labels = [];
+  const bMin=-80, bMax=160, bStep=20;
+  for(let b=bMin;b<bMax;b+=bStep) {
+    labels.push(b+'%');
+    bins.push(rois.filter(r=>r>=b&&r<b+bStep).length);
+  }
+
+  const ctx = document.getElementById('mcChart').getContext('2d');
+  if(mcChart) mcChart.destroy();
+  mcChart = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'Количество проектов',
+        data:bins,
+        backgroundColor: bins.map((_,i)=> i*bStep+bMin < 0 ? 'rgba(239,68,68,.6)' : 'rgba(34,197,94,.6)'),
+        borderColor: bins.map((_,i)=> i*bStep+bMin < 0 ? 'rgba(239,68,68,1)' : 'rgba(34,197,94,1)'),
+        borderWidth:1
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw} проектов`}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4',font:{size:10}}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'}}
+      }
+    }
+  });
+
+  const sign = prob >= 0.5 ? '✅' : '⚠️';
+  document.getElementById('mc-note').innerHTML = `<strong>${sign} Результат (${N} итераций):</strong> Вероятность окупаемости проекта за 2 года составляет <strong>${(prob*100).toFixed(1)}%</strong>. Средний ROI = <strong>${mean.toFixed(1)}%</strong>. В 5% худших сценариев ROI опускается до <strong>${p5.toFixed(1)}%</strong>. Зелёные столбцы = прибыльные проекты, красные = убыточные.`;
+}
+
+// ---- Chart initializers ----
+function initChart(i) {
+  if(chartInited[i]) return;
+  chartInited[i] = true;
+
+  if(i===0) {
+    // STEEP bar
+    const ctx = document.getElementById('steepChart').getContext('2d');
+    new Chart(ctx,{type:'bar',data:{
+      labels:['Импортозамещение\n(Polit.)','AI/LLM\n(Tech.)','Регуляторика\n(Polit.)','Дефицит кадров\n(Soc.)','Ставка ЦБ\n(Econ.)','Экология\n(Ecol.)'],
+      datasets:[{label:'pᵢ × kᵢ',data:[8.55,9.20,6.80,5.60,4.90,3.75],
+        backgroundColor:['rgba(249,115,22,.6)','rgba(96,165,250,.6)','rgba(168,85,247,.6)','rgba(34,197,94,.6)','rgba(245,158,11,.6)','rgba(52,211,153,.55)'],
+        borderColor:['#f97316','#60a5fa','#a855f7','#22c55e','#f59e0b','#34d399'],borderWidth:1,borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4',font:{size:10}}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'},max:11,title:{display:true,text:'Взвешенный вклад',color:'#8892a4',font:{size:11}}}}}});
+  }
+
+  if(i===1) {
+    // Porter radar
+    const ctx = document.getElementById('porterChart').getContext('2d');
+    new Chart(ctx,{type:'radar',data:{
+      labels:['Новые участники','Власть поставщиков','Власть покупателей','Субституты (AI)','Конкуренция'],
+      datasets:[{label:'Сила (1–10)',data:[7,6,7,9,8],
+        backgroundColor:'rgba(201,168,76,.15)',borderColor:'#c9a84c',pointBackgroundColor:'#c9a84c',pointRadius:5,borderWidth:2}]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{r:{min:0,max:10,grid:{color:'rgba(255,255,255,.1)'},ticks:{color:'#8892a4',font:{size:10},stepSize:2},pointLabels:{color:'#e2e8f0',font:{size:11}}}}}});
+  }
+
+  if(i===2) {
+    // NPV/IRR chart
+    const ctx = document.getElementById('npvChart').getContext('2d');
+    new Chart(ctx,{type:'bar',data:{
+      labels:['A: Крупные\n(>30 млрд)','B: Средние\n(5-30 млрд)','C: Малые\n(<5 млрд)'],
+      datasets:[
+        {label:'Средний NPV (млн ₽)',data:[820,250,60],backgroundColor:'rgba(96,165,250,.6)',borderColor:'#60a5fa',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {label:'Средний IRR (%)',data:[24,35,49],backgroundColor:'rgba(201,168,76,.6)',borderColor:'#c9a84c',borderWidth:1,borderRadius:4,yAxisID:'y1'}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#e2e8f0',font:{size:11}}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#60a5fa'},position:'left',title:{display:true,text:'NPV (млн ₽)',color:'#60a5fa'}},
+        y1:{grid:{display:false},ticks:{color:'#c9a84c'},position:'right',title:{display:true,text:'IRR (%)',color:'#c9a84c'},max:70}
+      }}});
+  }
+
+  if(i===3) {
+    const ctx = document.getElementById('sensChart').getContext('2d');
+    new Chart(ctx,{type:'bar',data:{
+      labels:['Выручка −15%','COGS (экономия)','CAC +25%','ΔEBIT итого'],
+      datasets:[{data:[-15,6.3,-3,-11.7],
+        backgroundColor:['rgba(239,68,68,.6)','rgba(34,197,94,.6)','rgba(249,115,22,.6)','rgba(201,168,76,.6)'],
+        borderColor:['#ef4444','#22c55e','#f97316','#c9a84c'],borderWidth:1,borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{color:'#8892a4',font:{size:10}}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'},title:{display:true,text:'млн ₽',color:'#8892a4'}}}}});
+  }
+
+  if(i===6) {
+    const ctx = document.getElementById('volChart').getContext('2d');
+    const se = [0.0011, 0.0009, 0.0009, 0.0016, 0.001];
+    new Chart(ctx,{type:'bar',data:{
+      labels:['0% (база)','20%','40%','60%','80%'],
+      datasets:[{label:'σ средней цены',data:[0.0508, 0.0491, 0.0464, 0.0557, 0.0655],
+        backgroundColor:['rgba(34,197,94,.6)','rgba(34,197,94,.45)','rgba(201,168,76,.6)','rgba(249,115,22,.6)','rgba(239,68,68,.6)'],
+        borderColor:['#22c55e','#22c55e','#c9a84c','#f97316','#ef4444'],borderWidth:1,borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'σ = '+c.raw+' (±'+se[c.dataIndex]+')'}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#8892a4'},title:{display:true,text:'Доля вендоров с общей Q-таблицей',color:'#8892a4'}},
+        y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'},min:0.03,title:{display:true,text:'σ средней цены (ед. цены)',color:'#8892a4'}}}}});
+  }
+
+  if(i===8) {
+    buildRiskGrid();
+    // Risk bubble chart
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctx,{type:'bubble',data:{datasets:[
+      {label:'Импортозамещение',data:[{x:4,y:5,r:14}],backgroundColor:'rgba(59,130,246,.7)'},
+      {label:'AI-субституты',data:[{x:5,y:5,r:16}],backgroundColor:'rgba(168,85,247,.7)'},
+      {label:'Дефицит кадров',data:[{x:3,y:4,r:12}],backgroundColor:'rgba(34,197,94,.7)'},
+      {label:'Ставка ЦБ',data:[{x:3,y:3,r:11}],backgroundColor:'rgba(245,158,11,.7)'},
+      {label:'Утечка данных',data:[{x:5,y:2,r:13}],backgroundColor:'rgba(239,68,68,.7)'},
+      {label:'Запрет AI',data:[{x:5,y:2,r:10}],backgroundColor:'rgba(236,72,153,.7)'},
+      {label:'Open-source замена',data:[{x:4,y:3,r:12}],backgroundColor:'rgba(6,182,212,.7)'},
+      {label:'Квантовый взлом',data:[{x:5,y:1,r:9}],backgroundColor:'rgba(249,115,22,.7)'}
+    ]},options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#e2e8f0',font:{size:10}},position:'bottom'}},
+      scales:{
+        x:{min:0,max:6,grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'},title:{display:true,text:'Импакт',color:'#8892a4'}},
+        y:{min:0,max:6,grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#8892a4'},title:{display:true,text:'Вероятность',color:'#8892a4'}}
+      }}});
+  }
+}
+
+function buildRiskGrid() {
+  const grid = document.getElementById('riskGrid');
+  // Colors by probability (row) × impact (col)
+  const colors = [
+    ['#14532d','#14532d','#14532d','#713f12','#713f12'],
+    ['#14532d','#14532d','#713f12','#713f12','#7f1d1d'],
+    ['#14532d','#713f12','#713f12','#7f1d1d','#7f1d1d'],
+    ['#713f12','#713f12','#7f1d1d','#7f1d1d','#7f1d1d'],
+    ['#713f12','#7f1d1d','#7f1d1d','#7f1d1d','#991b1b']
+  ];
+  // risks: [row 0-4 from bottom, col 0-4]
+  const risks = [
+    {r:0,c:4,color:'#f97316',label:'Квантум'},
+    {r:1,c:4,color:'#ef4444',label:'Утечка'},
+    {r:1,c:4,color:'#ec4899',label:'Запрет AI',offset:true},
+    {r:2,c:3,color:'#06b6d4',label:'OSS'},
+    {r:2,c:2,color:'#f59e0b',label:'ЦБ'},
+    {r:3,c:2,color:'#22c55e',label:'Кадры'},
+    {r:4,c:3,color:'#3b82f6',label:'Импорт'},
+    {r:4,c:4,color:'#a855f7',label:'AI-суб.'}
+  ];
+  // Build 5x5 grid (row 4 = top = very high probability)
+  for(let row=4;row>=0;row--) {
+    for(let col=0;col<5;col++) {
+      const cell = document.createElement('div');
+      cell.className='rc';
+      cell.style.background=colors[row][col];
+      // Find risks at this position
+      const rHere = risks.filter(r=>r.r===row&&r.c===col);
+      rHere.forEach((risk,idx)=>{
+        const dot = document.createElement('div');
+        dot.className='dot';
+        dot.style.background=risk.color;
+        dot.style.left=(idx*26+4)+'px';
+        dot.title=risk.label;
+        dot.textContent=risk.label.slice(0,2);
+        cell.appendChild(dot);
+      });
+      grid.appendChild(cell);
+    }
+  }
+}
+
+// Init first tab
+initChart(0);
+</script>
+</body>
+</html>
